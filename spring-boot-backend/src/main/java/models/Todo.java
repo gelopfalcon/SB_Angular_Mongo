@@ -7,9 +7,6 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 @Document(collection="todos")
 @JsonIgnoreProperties(value = {"createdAt"}, allowGetters = true)
 public class Todo {
