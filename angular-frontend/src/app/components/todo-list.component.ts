@@ -5,7 +5,8 @@ import {NgForm} from '@angular/forms';
 
 @Component({
   selector: 'todo-list',
-  templateUrl: './todo-list.component.html'
+  templateUrl: './todo-list.component.html',
+  styleUrls: ['./todo-list.component.css']
 })
 
 export class TodoListComponent implements OnInit {
@@ -32,7 +33,7 @@ export class TodoListComponent implements OnInit {
 
 
   createTodo(todoForm: NgForm): void {
-    this.todoService.createTodo1(this.newTodo)
+    this.todoService.createTodo(this.newTodo)
     .subscribe(
       createTodo => {
         todoForm.reset();
@@ -45,9 +46,12 @@ export class TodoListComponent implements OnInit {
 
   deleteTodo(id: string): void {
     this.todoService.deleteTodo(id)
-    .then(() => {
-      this.todos = this.todos.filter(todo => todo.id != id);
-    });
+    .subscribe(
+      () => {
+        this.todos = this.todos.filter(todo => todo.id != id);
+      },
+      error => console.log("Error :: " + error)
+    )
   }
 
   updateTodo(todoData: Todo): void {

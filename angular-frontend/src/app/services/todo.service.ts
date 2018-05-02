@@ -20,13 +20,7 @@ export class TodoService {
         .catch(this.handleError);
 }
 
-  createTodo(todoData: Todo): Promise<Todo> {
-    return this.http.post(this.baseUrl + '/api/todos/', todoData)
-      .toPromise().then(response => response.json() as Todo)
-      .catch(this.handleError);
-  }
-
-  createTodo1(todoData: Todo): Observable<Todo> {
+  createTodo(todoData: Todo): Observable<Todo> {
     return this.http.
       post(this.baseUrl + '/api/todos/', todoData)
       .map((response: Response) => {
@@ -42,9 +36,9 @@ export class TodoService {
       .catch(this.handleError);
   }
 
-  deleteTodo(id: string): Promise<any> {
-    return this.http.delete(this.baseUrl + '/api/todos/' + id)
-      .toPromise()
+  deleteTodo(id: string): Observable<any> {
+    return this.http.
+      delete(this.baseUrl + '/api/todos/' + id)
       .catch(this.handleError);
   }
 
