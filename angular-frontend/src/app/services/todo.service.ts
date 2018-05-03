@@ -29,11 +29,12 @@ export class TodoService {
       .catch(this.handleError);
   }
 
-  updateTodo(todoData: Todo): Promise<Todo> {
+  updateTodo(todoData: Todo): Observable<Todo> {
     return this.http.put(this.baseUrl + '/api/todos/' + todoData.id, todoData)
-      .toPromise()
-      .then(response => response.json() as Todo)
-      .catch(this.handleError);
+    .map((response: Response) => {
+      return <Todo>response.json();
+    })
+    .catch(this.handleError);
   }
 
   deleteTodo(id: string): Observable<any> {
@@ -42,8 +43,7 @@ export class TodoService {
       .catch(this.handleError);
   }
 
-  private handleError(error: any): Promise<any> {
-    console.error('Some error occured', error);
-    return Promise.reject(error.message || error);
+  private handleError(error: any): Observable<any> {
+    return Observable.throw(console.error('Some error occured', error));
   }
 }

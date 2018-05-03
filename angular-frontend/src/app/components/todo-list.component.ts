@@ -57,7 +57,7 @@ export class TodoListComponent implements OnInit {
   updateTodo(todoData: Todo): void {
     console.log(todoData);
     this.todoService.updateTodo(todoData)
-    .then(updatedTodo => {
+    .subscribe(updatedTodo => {
       let existingTodo = this.todos.find(todo => todo.id === updatedTodo.id);
       Object.assign(existingTodo, updatedTodo);
       this.clearEditing();
@@ -67,7 +67,7 @@ export class TodoListComponent implements OnInit {
   toggleCompleted(todoData: Todo): void {
     todoData.completed = !todoData.completed;
     this.todoService.updateTodo(todoData)
-    .then(updatedTodo => {
+    .subscribe(updatedTodo => {
       let existingTodo = this.todos.find(todo => todo.id === updatedTodo.id);
       Object.assign(existingTodo, updatedTodo);
     });
