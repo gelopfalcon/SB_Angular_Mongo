@@ -2,6 +2,12 @@ import { Component, Input, OnInit } from '@angular/core';
 import { TodoService } from '../services/todo.service';
 import { Todo } from './todo';
 import {NgForm} from '@angular/forms';
+import { Store } from '@ngrx/store';
+import { State } from '../reducers/todo.reducer';
+import "rxjs/Rx";
+import { Observable } from 'rxjs/Observable';
+import * as todoActions from '../actions/todo.actions';
+import { getTodosSelector } from '../selectors/todo.selector';
 
 @Component({
   selector: 'todo-list',
@@ -10,6 +16,8 @@ import {NgForm} from '@angular/forms';
 })
 
 export class TodoListComponent implements OnInit {
+  todos$: Observable<Todo[]>;
+
   todos: Todo[];
   newTodo: Todo = new Todo();
   editing: boolean = false;
@@ -17,18 +25,18 @@ export class TodoListComponent implements OnInit {
 
   constructor(
     private todoService: TodoService,
-  ) {}
+    private store: Store<State>
+  ) {
+  }
 
   ngOnInit(): void {
     this.getTodos();
+    this.todos$ = this.store.select(getTodosSelector);
+    this.todos$.subscribe(item => console.log(item));
   }
 
   getTodos(): void {
-    this.todoService.getTodos()
-        .subscribe(
-            resultArray => this.todos = resultArray,
-            error => console.log("Error :: " + error)
-        )
+       this.store.dispatch(new todoActions.getTodosAction());
 }
 
 
