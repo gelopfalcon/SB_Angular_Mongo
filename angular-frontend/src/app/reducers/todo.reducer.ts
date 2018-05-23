@@ -20,7 +20,25 @@ export function todoReducer(state: State = initialState, action: todoActions.Act
                 ...state,
                 todos : action.payload
             }
-            //return {todos: Object.assign({}, state.todos, action.payload)};
+
+        case todoActions.CREATE_TODO_SUCCESS:
+
+        const newTodos = state.todos;
+        newTodos.unshift(action.payload.todo)
+
+        return {
+            ...state,
+            todos : newTodos
+        }
+
+        case todoActions.DELETE_TODO_SUCCESS:
+
+        const todosReduced = state.todos;
+        
+        return {
+            ...state,
+            todos : todosReduced.filter(todo => todo.id != action.payload)
+        }
 
         default:
             return state;

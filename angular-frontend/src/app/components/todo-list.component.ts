@@ -41,25 +41,21 @@ export class TodoListComponent implements OnInit {
 
 
   createTodo(todoForm: NgForm): void {
-    this.todoService.createTodo(this.newTodo)
-    .subscribe(
-      createTodo => {
-        todoForm.reset();
-        this.newTodo = new Todo();
-        this.todos.unshift(createTodo)
-      },
-      error => console.log("Error :: " + error)
-    )
+    this.store.dispatch(new todoActions.createTodoAction({todo:this.newTodo}));
+    todoForm.reset();
   }
 
   deleteTodo(id: string): void {
+    /*
     this.todoService.deleteTodo(id)
     .subscribe(
       () => {
         this.todos = this.todos.filter(todo => todo.id != id);
       },
       error => console.log("Error :: " + error)
-    )
+    )*/
+
+    this.store.dispatch( new todoActions.deleteTodoAction(id))
   }
 
   updateTodo(todoData: Todo): void {
